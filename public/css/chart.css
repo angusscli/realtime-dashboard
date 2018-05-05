@@ -1,0 +1,54 @@
+text {
+    font: 12px sans-serif;
+}
+svg {
+    display: block;
+}
+
+html, body, #chart1, svg  {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  width: 100%;
+}
+.nvd3.nv-pie.nv-chart-donut1 .nv-pie-title {
+            opacity: 0.4;
+            fill: rgba(224, 116, 76, 0.91);
+        }
+
+html, body, #chart2, svg  {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+html, body, #chart3, svg  {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+html, body, #chart3, svg {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+}
+html, body, #chart4, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+
+.nvd3 text {
+  font: normal 12px sans-serif !important;
+}
+.nvd3 .title {
+  font: normal 12px sans-serif !important;
+}
+.nvtooltip {
+  font-family: sans-serif !important;
+}

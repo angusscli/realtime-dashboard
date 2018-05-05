@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Stock Advisor Realtime Dashboard</title>
+ 
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' /> 
+
+  <!-- Demo Dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+
+  <!-- 
+  <script src="https://d26b395fwzu5fz.cloudfront.net/keen-analysis-1.2.2.js" type="text/javascript"></script>
+  <link href="https://d26b395fwzu5fz.cloudfront.net/keen-dataviz-1.1.3.css" rel="stylesheet" />
+  <script src="https://d26b395fwzu5fz.cloudfront.net/keen-dataviz-1.1.3.js" type="text/javascript"></script>
+ 
+  <script type="text/javascript" src="./lib/starter-kit.js"></script>
+  -->
+ 
+  <!-- Dashboard -->
+  <link href="./css/keen-dashboards.css" rel="stylesheet" type="text/css" />
+  
+  <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
+<script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
+
+
+
+<script src="./lib/map.js"></script>
+
+
+    <link href="./nvd3/nv.d3.css" rel="stylesheet" type="text/css">
+    <link href="./css/chart.css" rel="stylesheet" type="text/css">
+
+    <script src="./lib/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="./lib/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="./lib/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <script src="./lib/d3.min.js" charset="utf-8"></script>
+    <script src="./nvd3/nv.d3.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/main.js"></script>
+    
+        <script src="./js/data.js"></script>
+        <script src="./js/chart3.js"></script>
+    <script src="./js/chart1.js"></script>  
+        <script src="./js/txn.js"></script>
+        <!-- 
+        <script src="./js/news.js"></script> -->
+</head>
+<body class="keen-dashboard" style="padding-top: 65px;">
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <span class="navbar-brand">Stock Advisor Realtime Dashboard</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-fluid">
+   <div class="row">
+      <div class="col-sm-3">
+      	<div class="chart-wrapper">
+          <div class="chart-title">
+            CURRENT NO. OF USERS
+          </div>
+          <div class="chart-stage" style="height:50px">
+            <span style="font-size:26px;">--</span>
+          </div>
+          </div>
+      </div>
+      <div class="col-sm-3">
+      	<div class="chart-wrapper">
+          <div class="chart-title">
+             AVG. ENGAGEMENT DURATION (MINS)
+          </div>
+          <div class="chart-stage" style="height:50px">
+            <span style="font-size:26px;">--</span>
+          </div>
+          </div>
+      </div>
+      <div class="col-sm-3">
+      	<div class="chart-wrapper">
+          <div class="chart-title">
+            AVG. SENTIMENTAL SCORE
+          </div>
+          <div class="chart-stage" style="height:50px">
+            <span style="font-size:26px;" id="score">--</span>
+          </div>
+          </div>
+      </div>      <div class="col-sm-3">
+      	<div class="chart-wrapper">
+          <div class="chart-title">
+            CROSS SALES SUCCESSFUL RATE
+          </div>
+          <div class="chart-stage" style="height:50px">
+            <span style="font-size:26px;">--%</span>
+          </div>
+          </div>
+      </div>
+   </div>
+  
+    <div class="row">
+      <div class="col-sm-7">
+      	<div class="chart-wrapper">
+          <div class="chart-title">
+            ENGAGEMENT DISTRIBUTION
+          </div>
+          <div class="chart-stage">
+            <div id="grid-1-1">
+              <div id="chartdiv" style="width: 100%;height: 350px;"></div>
+            </div>
+          </div>
+          </div>
+      </div>
+      
+      <div class="col-sm-2">
+      	<div class="chart-wrapper">
+          <div class="chart-title">
+            LATEST TRANSACTIONS
+          </div>
+          <div class="chart-stage">
+            <div id="grid-1-1">
+              <div id="latest" style="width: 100%;height: 350px;">
+              	<ul id="ul-txn">
+	              	<li> SELL 10 SHARES AMZN</li>
+	              	<li> BUY 100 SHARES FB</li>
+              	</ul>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+      <div class="col-sm-3">
+     	<div class="chart-wrapper">
+          <div class="chart-title">
+            LATEST NEWS / TWEETS
+          </div>
+          <div class="chart-stage">
+            <div id="grid-1-1">
+              <div id="news" style="width:100%;height:350px; overflow: auto">
+                            	<ul id="ul-news">
+                            	
+                            	</ul>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+
+
+
+
+    </div>
+    <div class="row">
+
+      <div class="col-sm-3">
+      	<div class="chart-wrapper">
+          <div class="chart-title">
+            KEYWORDS
+          </div>
+          <div class="chart-stage">
+            <div id="grid-1-1">
+              <div id="chartdiv" style="width: 100%;height:260px">
+              	<div id="chart2" class="w3-container with-3d-shadow with-transitions" ></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+
+      <!-- PIE Chart -->
+      <div class="col-sm-3">
+      	<div class="chart-wrapper">
+          <div class="chart-title">NEWS / TWEETS ANALYSIS</div>
+          <div class="chart-stage">
+            <div id="grid-1-1">
+              <div id="chartdiv" style="width: 100%;height:260px">
+              	<div id="chart1" class="w3-container with-3d-shadow with-transitions" >
+              		<svg style="height:100%;width:100%;"></svg>
+              	</div>
+              </div>
+            </div>
+          </div>
+          </div>
+        <br>
+      </div>
+      
+      
+      <div class="col-sm-6">
+            	<div class="chart-wrapper">
+          <div class="chart-title">DAILY SENTIMENTAL ANALYSIS</div>
+          <div class="chart-stage">
+            <div id="grid-1-1">
+              <div id="chartdiv" style="width: 100%;height:260px">
+              	<div id="chart3" class="w3-container with-3d-shadow with-transitions" >
+              		<svg style="height:100%;width:100%;"></svg>
+              	</div>
+              </div>
+            </div>
+          </div>
+          </div>
+        
+
+        
+        <br>
+      </div>
+    </div>
+
+    <hr>
+  </div>
+</body>
+<script src="./lib/d3cloud.js" charset="utf-8"></script>
+    <script src="./js/chart2.js"></script>
+
+</html>
